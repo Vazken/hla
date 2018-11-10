@@ -1,0 +1,35 @@
+//factorial program
+program Main;
+#include( "stdlib.hhf" );
+static
+procedure factorial (value: int8 ); @nodisplay; @noframe;
+static
+	iTemp: int16;
+    iReturnAddress: dword;
+begin factorial;
+    pop(iReturnAddress);       
+	pop (iTemp);
+	
+	push(iReturnAddress);
+	stdout.put(iTemp,"! = ");
+	mov(0001,ax);
+L1:
+	imul(iTemp,ax);
+	dec(iTemp);
+	cmp(iTemp,0);
+	JZ done;
+JMP L1;
+done:
+	
+	stdout.putu16(ax);
+	ret();	
+ret();
+end factorial;
+
+begin Main;
+stdout.put("Provide a number: ");
+xor (eax,eax);
+stdin.getu8();
+push(ax);
+call factorial;
+end Main;

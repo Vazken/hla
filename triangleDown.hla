@@ -1,0 +1,26 @@
+program triangle;
+#include( "stdlib.hhf" );
+var
+    usrInput: int8;
+	count: int8;
+	bigCount: int8;
+begin triangle;
+	stdout.put( "Gimme a decimal value to use as n:");
+	stdin.geti8();		//get usr Input
+	mov(al,usrInput);
+	mov(al,count);
+	mov(al,bigCount);
+L1:
+L2:
+	stdout.puti8(usrInput);
+	sub(1,count);
+	cmp(count,0);
+JNZ L2;
+	sub(1,usrInput);
+	sub(1,bigCount);
+	mov(bigCount,al);
+	mov(al,count);
+	stdout.put(nl);
+	cmp(bigCount,0);	
+JNZ L1;
+end triangle;

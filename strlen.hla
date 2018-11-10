@@ -1,0 +1,42 @@
+program main;
+#include("stdlib.hhf");
+#include ("cs17string.hla");
+static
+    usrInput: byte[127] ;
+    maxLength: int16 := 127;
+procedure strlen(baseStringAddress: dword); @nodisplay; @noframe;
+static
+    iReturnAddress: dword;
+begin strlen;
+    pop(iReturnAddress);
+    pop(baseStringAddress);
+    xor(eax,eax);
+    mov(baseStringAddress,ebx);
+    console.setAttrs(console.green,console.black);  // optional
+L1:
+    stdout.putc([ebx]);
+    inc(ebx);
+    mov([ebx],dl);
+    inc(eax);
+    cmp(dl,0);
+    JNZ L1;
+    push(iReturnAddress);
+    ret();
+end strlen;
+
+
+begin main;
+    console.setAttrs(console.white,console.black);  // optional
+    stdout.puts("Feed Me: ");
+    mov(&usrInput,eax);
+    push(eax);
+    push(maxLength);
+    call gets;
+    mov(&usrInput,eax);
+    push(eax);
+    stdout.put("The String You Entered: ");
+    call strlen;
+    console.setAttrs(console.white,console.black);  // optional
+    stdout.put(" Has Length = ");
+    stdout.puti8(al);
+end main;

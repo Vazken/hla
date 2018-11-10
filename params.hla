@@ -1,0 +1,71 @@
+program ReferenceProgram;
+#include("stdlib.hhf");
+#include ("cs17string.hla");
+static
+    iValue1: int16 :=0;
+    iValue2: int16 :=0;
+    iValue3: int16 :=0;
+procedure make31IfDifference20OrMore(var i: int16; var j: int16; var k: int16); @nodisplay; @noframe;
+static
+    dReturnAddress: dword;
+    temp: word;
+begin make31IfDifference20OrMore;
+    pop(dReturnAddress);
+    pop(k);
+    pop(j);
+    pop(i);
+
+    push(eax);
+    push(ebx);
+    push(ecx);
+    push(edx);
+    xor(eax,eax);
+    xor(ebx,ebx);
+    xor(ecx,ecx);
+    xor(edx,edx);
+
+    mov(i,eax);
+    mov(j,ebx);
+    mov(k,ecx);
+    mov([eax],dx);
+    mov([ebx],temp);
+    sub(temp,dx);
+    mov([ecx],temp);
+    sub(temp,dx);
+    stdout.puti16(dx);
+    cmp(dx,20);             // difference >= 20 ?
+    JGE doIt;               // make them all 31
+    jmp ext;                // else go back
+doIt:
+    mov(31,dx);
+    mov(dx,[eax]);
+    mov(dx,[ebx]);
+    mov(dx,[ecx]);
+ext:
+    pop(edx);
+    pop(ecx);
+    pop(ebx);
+    pop(eax);
+    push(dReturnAddress);
+    ret();
+end make31IfDifference20OrMore;
+
+
+begin ReferenceProgram;
+    mov(1,iValue1);
+    mov(7,iValue2);
+    mov(3,iValue3);
+
+    // push parameters
+    mov(&iValue1,eax);
+    push(eax);
+    mov(&iValue2,eax);
+    push(eax);
+    mov(&iValue3,eax);
+    push(eax);
+    call make31IfDifference20OrMore;
+
+    stdout.put("The first parameter = ", iValue1);
+    stdout.put("The second parameter = ", iValue2);
+    stdout.put("The third parameter = ", iValue3);
+end ReferenceProgram;

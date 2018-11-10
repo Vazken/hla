@@ -1,0 +1,20 @@
+// string mimic
+program main;
+#include ("stdlib.hhf");
+#include ("cs17string.hla");
+const
+    nullchar: byte := 0;
+static
+    stringData : byte[4] := ['a','b','c','0'];
+    stringDataLen : uns16 := 3;
+begin main;
+    mov(&stringData,eax);
+    push(eax);
+    push(stringDataLen);
+    call gets;
+    
+    mov(&stringData,eax);
+    push(eax);
+    call puts;
+    stdout.newln();
+end main;

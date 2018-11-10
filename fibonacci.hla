@@ -1,0 +1,46 @@
+program Main;
+#include( "stdlib.hhf" );
+static
+    value: int16;
+procedure fibRec (value: int8 ); @nodisplay; 
+static
+	iTemp: int16;
+    iReturnAddress: dword;
+	temp: dword;
+begin fibRec;
+    pop(iReturnAddress); 
+	push(iReturnAddress);
+
+//*******************************************************************************************************************/	
+// 									if (value = 1 || value = 2)
+	cmp(eax,2);
+	JA nope;
+		mov(1,eax);
+		jmp done;
+//*******************************************************************************************************************/	
+nope:
+		push(edx);
+		dec(eax);
+		push(eax);        
+		fibRec(al);
+		pop(temp);
+		push(eax);
+		mov(temp,eax);
+		dec(eax);
+		fibRec(al);
+		pop(edx);        
+		add(edx,eax);  
+		pop(edx);
+done:
+end fibRec;
+
+begin Main;
+		stdout.put("Provide a number: ");
+		xor (eax,eax);
+		stdin.geti8();		// get integer in al
+		push(ax);			// push ax on stack
+		mov(ax,value);		// save it in value
+		fibRec(al);			// call the function
+		stdout.put("fib(",value,") = ");
+		stdout.puti16(ax);
+end Main;

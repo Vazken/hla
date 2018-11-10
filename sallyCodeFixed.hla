@@ -1,0 +1,51 @@
+program main;
+#include( "stdlib.hhf" );
+procedure bar ( data : int16); @nodisplay; @noframe;
+static 
+	   iTemp: int16;
+	   iReturnAddress : dword;
+	   iRegisterValue : dword;				// one problem
+begin bar;
+	mov (ebx, iRegisterValue);		
+	pop (iReturnAddress);
+	pop (iTemp);
+	pop (data);
+	
+	push(iReturnAddress);
+    push(iRegisterValue);				// one problem
+	
+	stdout.put(iTemp);					// getting the value correctly
+	
+	// before using registers let's preserve them
+	push ( eax );
+	push ( ebx );
+	push ( ecx );
+	push ( edx );
+	
+	
+	mov (0,eax);
+	mov (0,ebx);
+	mov (0,ecx);
+	mov (0,edx);
+	inc (eax);
+	add (ebx,eax);
+	inc (ebx);
+	add (ebx, ecx);
+	inc (edx);
+	
+	// restore used registers
+	pop ( edx );
+	pop ( ecx );
+	pop ( ebx );
+	pop ( eax );
+	
+	pop(ebx);						// second problem, before ret we must pop (ebx);
+	ret();						
+	
+end bar;
+
+begin main;
+stdin.geti16();				// get a value in main function to test that passed parameter is being passed without problems
+push(ax);					// stdin.get16() returned value in ax
+call bar;					// calling the function
+end main;

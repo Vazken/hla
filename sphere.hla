@@ -1,0 +1,42 @@
+program main;
+#include( "stdlib.hhf" );
+#include( "console.hhf");
+static
+    radius: real32;
+procedure middleFinder(r: real32); @nodisplay; @noframe;
+
+static
+    iReturnAddress: dword;
+    iRegisterValue: dword;
+    ans: real32;                        //store the answer
+    PI4: real32 := 12.566370614359172;  //PI * 4
+begin middleFinder;
+    mov(ebx,iRegisterValue);
+
+    pop(iReturnAddress);        
+
+    pop(r);                 //this is r
+
+    push(iReturnAddress);
+    push(iRegisterValue);
+
+    finit();        //initialize FPU
+    fld(r);         //load r
+    fld(st0);       //duplicate r on tos
+    fmul(r);        //compute x**2
+    fmul(PI4);
+    fstp(ans);
+    console.setAttrs( console.red, console.black );
+    stdout.put("Surface Area = ");
+    stdout.putr32(ans,10,4,' ');        //print the answer
+
+    pop(ebx);
+    ret();
+
+end middleFinder;
+begin main;
+    stdout.put("Lemme calculate the surface area of a sphere!",nl,"Gimme r: ");
+    stdin.get(radius);
+    push(radius);
+    call middleFinder;
+end main;

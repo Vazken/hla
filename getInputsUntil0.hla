@@ -1,0 +1,33 @@
+program main;
+#include ("stdlib.hhf");
+static
+    userInput: uns32 := 0;
+
+begin main;
+	push(eax);	// save original value of eax register
+    stdout.put("Amir Kahn - Project 04");	// print name
+	stdout.newln();		// new lines
+	stdout.newln();
+	xor(esi,esi);		// XORing esi to make it == 0
+	xor(eax,eax);		// XORing eax register to make it == 0
+getInput:				// label to jump here
+	stdout.put("Enter a positive number, 0 to stop: ");		// ask the user for an input
+    stdin.getu32();		// get the unsigned 32bit integer data returned in eax register
+	mov(eax, userInput[esi]);	// move the value userinputed in eax to userInput variable to the position pointed by esi
+	add(4,esi); // move esi pointer 4 bytes (32bits)
+	cmp(eax,0);	// check to see if user entered 0 or not
+	JNE getInput;	// JNZ (Jump not equal) to getInput
+	stdout.newln();	// newline
+	xor(esi,esi);	// XORing esi to make it == 0
+printNumber:	// label to jump
+	stdout.putu32(userInput[esi]);	// put the 32 bit unsigned int to the scrren
+	stdout.put(" ");	// put a space 
+	add(4,esi);	// move esi pointer 4 bytes (32bits)
+	cmp(userInput[esi],0); // check to see if next value is 0 or not
+	JNE printNumber; // if not go to printNumber and print next value
+	stdout.newln();		// new lines
+	stdout.newln();
+	stdout.put("Amir Kahn - Project 04"); // print name
+	stdout.newln();		// new line
+	pop(eax);	// recover original value of eax register
+end main;

@@ -1,0 +1,77 @@
+program main;
+#include("stdlib.hhf");
+const
+	arrayLength := 16;
+static
+    arr :byte[] := [ 57, 98, 57, 74, 30, 59, 12, 42, 58, 88, 13, 16, 79, 67, 11, 23 ];
+	temp :byte;
+begin main;
+stdout.put("Sample Size: ");
+	mov(0,ecx);
+	mov(0,esi);
+	stdout.puti8(arrayLength);
+	stdout.newln(); stdout.newln();
+	stdout.put("Array Elements:");
+	stdout.newln();
+L1:
+	stdout.puti8(arr[esi]);
+	stdout.put(" ");
+	inc(esi);
+	inc(ecx);
+	cmp(ecx, arrayLength);
+JNZ L1;
+	stdout.newln();
+	stdout.newln();
+	mov(&arr, esi);
+	mov(arrayLength, edi);
+	dec(edi);
+bigLoop:
+L3:
+	stdout.puti8(arr[ebx]);
+	stdout.put(" ");
+	inc(ebx);
+	inc(temp);
+	cmp(temp, arrayLength);
+JNZ L3;
+		mov(edi, edx);
+		xor(ecx, ecx);
+		loop1:
+			mov([esi+edx], al);
+			cmp([esi+ecx], al);
+			JLE skip1;
+			mov(ecx, edx);
+skip1:
+		inc(ecx);
+		cmp(ecx, edi);
+		JL loop1;
+		cmp(ecx, edi);
+		JNZ skip2;
+			mov((type byte[esi+edx]), ah);
+			mov(edx, ecx);
+			loop2:
+				mov((type byte[esi+ecx+1]), al);
+				mov(al, [esi+ecx]);   
+				inc(ecx);
+				cmp(ecx, edi);
+				JL loop2;
+			mov(ah, [esi+edi]); 
+skip2:
+	
+	mov(0,temp);
+	mov(0,ebx);
+	stdout.newln();
+	dec(edi);
+JNZ bigLoop;
+	mov(0,ecx);
+	mov(0,ebx);
+L2:
+	stdout.puti8(arr[ebx]);
+	stdout.put(" ");
+	inc(ebx);
+	inc(ecx);
+	cmp(ecx, arrayLength);
+JNZ L2;
+	stdout.newln();
+	stdout.put("Press any key to continue...");
+	stdin.getc();
+end main;

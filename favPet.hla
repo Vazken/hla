@@ -1,0 +1,12 @@
+program main;
+#include( "stdlib.hhf" );
+#include( "console.hhf");
+begin main;
+//pomeranian
+console.setAttrs( console.red, console.black );
+stdout.put(nl,"PPPP   OOO  M   M EEEE RRRR   AA  N   N III  AA  N   N !",nl);
+stdout.put("P   P O   O MM MM E    R   R A  A NN  N  I  A  A NN  N !",nl);
+stdout.put("PPPP  O   O M M M EEE  RRRR  AAAA N N N  I  AAAA N N N !",nl);
+stdout.put("P     O   O M   M E    R R   A  A N  NN  I  A  A N  NN !",nl);
+stdout.put("P      OOO  M   M EEEE R  RR A  A N   N III A  A N   N !",nl);
+end main;

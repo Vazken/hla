@@ -1,0 +1,78 @@
+program StringProgram;
+#include("stdlib.hhf");
+#include ("cs17string.hla");
+static
+    stringData: dword;
+procedure countUpperCase(stringData : dword); @nodisplay; @noframe;
+static
+    dReturnAddress: dword;
+begin countUpperCase;
+    pop(dReturnAddress);
+    push(edx);
+    pop(stringData);
+    xor(edx,edx);
+    mov([ebx],edx);
+countUpper:
+    cmp(dl,64);
+    jna no;
+    cmp(dl,91);
+    jnb no;
+    inc(eax);
+    /*
+    if(dl >= 65 && dl <= 90) then
+    inc(eax);
+    endif;
+    */
+no:
+    inc(ebx);
+    mov([ebx],edx);
+    cmp(dl,0);
+JNZ countUpper;
+    pop(edx);
+    push(dReturnAddress);
+    ret();
+end countUpperCase;
+
+
+begin StringProgram;
+    stdout.put("Please enter a string to process: ");
+    mov( @size(int8),al);
+    mov(80,bl);
+    inc(bl);
+    mul(bl);
+    xor(ebx,ebx);                   // xor works faster than mov(0,ebx); :D
+    mov(ax,bx);
+    malloc(ebx);
+    mov(eax, stringData);
+
+    // read value into string
+    mov(stringData,eax);
+    push(eax);
+    mov(80,cx);
+    push(cx);
+    call gets;
+
+    // print the string
+
+    stdout.put(" -----> Here is the string you entered: ");
+
+    mov(stringData, eax);
+    push(eax);
+    call puts;
+    stdout.newln();
+
+    // initialize eax before calling the function
+    xor(eax,eax);
+
+    // todo send a string parameter to the function
+    mov(stringData,ebx);
+    push(ebx);
+    stdout.newln();
+    call countUpperCase;
+
+    // show the results
+
+    stdout.put("result= ");
+    stdout.puti32(eax);
+    stdout.newln();
+end StringProgram;

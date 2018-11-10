@@ -1,0 +1,147 @@
+program main;
+#include("stdlib.hhf");
+static
+    val1: int16;
+    val2: int16;
+    val3: int16;
+
+procedure middleFinder(x: int16;y: int16;z: int16); @nodisplay; @noframe;
+
+static
+    iReturnAddress: dword;
+    iRegisterValue: dword;
+
+begin middleFinder;
+
+    mov(ebx,iRegisterValue);
+
+    pop(iReturnAddress);        
+
+    pop(z);                 //this is z
+
+    pop(y);                 //this is y
+
+    pop(x);                 //this is x
+
+    push(iReturnAddress);
+    push(iRegisterValue);
+
+    mov(x,ax);      //move variables into registers since register work much faster than variables
+    mov(y,bx);
+    mov(z,cx);
+//*****************************START BY CHECKING IF ALL VALUES ARE EQUAL****************************
+    cmp(ax,y);          //check if x == y
+    JNZ L1;           //if not L1inue the program
+    cmp(ax,z);          //check if x == z
+    JNZ L1;           //if not L1inue the program
+
+    // if x == y and x == z ==> y == z all values are equal
+    pop(ebx);
+    mov(1,al);
+    ret();
+//*****************************END OF CHECKING IF ALL VALUES ARE EQUAL********************************
+/*
+x y z  
+1 2 3   y > x && y < z      ==> y is the middle
+1 3 2   z > x && z < y      ==> z is the middle     DONE
+2 1 3   x > y && x < z      ==> x is the middle     DONE
+2 3 1   x < y && x > z      ==> x is the middle     DONE    DONE
+3 1 2   z > y && z < x      ==> z is the middle     DONE    DONE
+3 2 1   y < x && y > z      ==> y is the middle     DONE    DONE
+*/
+//***************************** CHECK IF X < Y  && X > Z **********************************************
+L1:
+    cmp(ax,bx);      //compare x < y 
+    JB XL1;         //if true
+    jmp L2;
+XL1:
+    cmp(ax,cx);     //compare x > z
+    JA YL1;         //if true then x < y && x > z
+    jmp L2;
+YL1:
+    stdout.put(x," is in the middle!",nl);
+    JMP ext;
+//***************************** CHECK IF Z > Y && Z < X **********************************************
+L2:
+    cmp(CX,BX);     //compare z < y
+    JA XL2;
+    jmp L3;
+XL2:
+    cmp(CX,AX);     // z < x
+    JB YL2;
+    JMP L3;
+YL2:
+    stdout.put(z, " is in the middle!", nl);
+    jmp ext;
+//***************************** CHECK IF  Y < X && Y > Z **********************************************
+L3:
+    cmp(BX,AX);
+    JB XL3;
+    jmp L4;
+XL3:
+    cmp(BX,CX);
+    JA YL3;
+    JMP L4;
+YL3:
+    stdout.put(y, " is in the middle!", nl);
+    jmp ext;
+//***************************** CHECK IF   X > Y && X < Z **********************************************
+L4:
+    cmp(AX,BX);
+    JA XL4;
+    jmp L5;
+XL4:
+    cmp(AX,CX);
+    JB YL4;
+    JMP L5;
+YL4:
+    stdout.put(x, " is in the middle!", nl);
+    jmp ext;
+
+//***************************** CHECK IF   Z > X && Z < Y **********************************************
+L5:
+    cmp(CX,AX);
+    JA XL5;
+    jmp L6;
+XL5:
+    cmp(CX,BX);
+    JB YL5;
+    JMP L6;
+YL5:
+    stdout.put(z, " is in the middle!", nl);
+    jmp ext;
+//***************************** ELSE *******************************************************************
+L6:
+    stdout.put(y, " is in the middle!", nl);
+
+ext:
+    pop(ebx);
+    mov(0,al);      //return 0 in al
+    ret();
+end middleFinder;
+
+
+begin main;
+    stdout.put("Feed me X: ");
+    stdin.geti16();             //get input, returns value in ax
+    mov(ax,val1);               //save the value in ax
+    push(ax);
+    stdout.put("Feed me Y: ");
+    stdin.geti16();             //get input, returns value in ax
+    mov(ax,val1);               //save the value in ax
+    push(ax);
+    stdout.put("Feed me Z: ");
+    stdin.geti16();             //get input, returns value in ax
+    mov(ax,val1);               //save the value in ax
+    push(ax);
+
+    call middleFinder;
+    cmp(al,0);
+    JNZ equal;
+    stdout.put("AL = 0",nl);
+    jmp done;
+equal:
+    stdout.put("X and Y and Z are all equal!",nl)
+    stdout.put("AL = 1");
+done:
+end main;

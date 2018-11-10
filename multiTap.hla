@@ -1,0 +1,244 @@
+program main;
+#include( "stdlib.hhf" );
+static
+    usrInput: byte :=0 ;
+	msg1: word:= 65;
+procedure multitap(myCharacter: word); @nodisplay; @noframe;
+
+static
+    iReturnAddress: dword;
+    iRegisterValue: dword;
+begin multitap;
+	mov(ebx,iRegisterValue);
+    pop(iReturnAddress);        
+	pop(myCharacter);
+	
+	cmp(myCharacter,65);
+	JZ printA;
+	cmp(myCharacter,97);			//check for A
+	JZ printA;
+	
+	cmp(myCharacter,66);
+	JZ printB;
+	cmp(myCharacter,98);			//check for B
+	JZ printB;
+	
+	cmp(myCharacter,67);
+	JZ printC;
+	cmp(myCharacter,99);			//check for C
+	JZ printC;
+	
+	cmp(myCharacter,68);
+	JZ printD;
+	cmp(myCharacter,100);			//check for D
+	JZ printD;
+	
+	cmp(myCharacter,69);
+	JZ printE;
+	cmp(myCharacter,101);			//check for E
+	JZ printE;
+	
+	cmp(myCharacter,70);
+	JZ printF;
+	cmp(myCharacter,102);			//check for F
+	JZ printF;
+	
+	cmp(myCharacter,71);
+	JZ printG;
+	cmp(myCharacter,103);			//check for G
+	JZ printG;
+	
+	cmp(myCharacter,72);
+	JZ printH;
+	cmp(myCharacter,104);			//check for H
+	JZ printH;
+	
+	cmp(myCharacter,73);
+	JZ printI;
+	cmp(myCharacter,105);			//check for I
+	JZ printI;
+	
+	cmp(myCharacter,74);
+	JZ printJ;
+	cmp(myCharacter,106);			//check for J
+	JZ printJ;
+	
+	cmp(myCharacter,75);
+	JZ printK;
+	cmp(myCharacter,107);			//check for K
+	JZ printK;
+	
+	cmp(myCharacter,76);
+	JZ printL;
+	cmp(myCharacter,108);			//check for L
+	JZ printL;
+	
+	cmp(myCharacter,77);
+	JZ printM;
+	cmp(myCharacter,109);			//check for M
+	JZ printM;
+	
+	cmp(myCharacter,78);
+	JZ printN;
+	cmp(myCharacter,110);			//check for N
+	JZ printN;
+	
+	cmp(myCharacter,79);
+	JZ printO;
+	cmp(myCharacter,111);			//check for O
+	JZ printO;
+	
+	cmp(myCharacter,80);
+	JZ printP;
+	cmp(myCharacter,112);			//check for P
+	JZ printP;
+	
+	cmp(myCharacter,81);
+	JZ printQ;
+	cmp(myCharacter,113);			//check for Q
+	JZ printQ;
+	
+	cmp(myCharacter,82);
+	JZ printR;
+	cmp(myCharacter,114);			//check for R
+	JZ printR;
+	
+	cmp(myCharacter,83);
+	JZ printS;
+	cmp(myCharacter,115);			//check for S
+	JZ printS;
+	
+	cmp(myCharacter,84);
+	JZ printT;
+	cmp(myCharacter,116);			//check for T
+	JZ printT;
+	
+	cmp(myCharacter,85);
+	JZ printU;
+	cmp(myCharacter,117);			//check for U
+	JZ printU;
+	
+	cmp(myCharacter,86);
+	JZ printV;
+	cmp(myCharacter,118);			//check for V
+	JZ printV;
+	
+	cmp(myCharacter,87);
+	JZ printW;
+	cmp(myCharacter,119);			//check for W
+	JZ printW;
+	
+	cmp(myCharacter,88);
+	JZ printX;
+	cmp(myCharacter,120);			//check for X
+	JZ printX;
+	
+	cmp(myCharacter,89);
+	JZ printY;
+	cmp(myCharacter,121);			//check for Y
+	JZ printY;
+	
+	cmp(myCharacter,90);
+	JZ printZ;
+	cmp(myCharacter,122);			//check for Z
+	JZ printZ;
+	
+	
+	jmp done;
+printA:
+	mov(2,ax);
+	jmp done;
+printB:
+	mov(22,ax);
+	jmp done;
+printC:
+	mov(222,ax);
+	jmp done;
+printD:
+	mov(3,ax);
+	jmp done;
+printE:
+	mov(33,ax);
+	jmp done;
+printF:
+	mov(333,ax);
+	jmp done;
+printG:
+	mov(4,ax);
+	jmp done;
+printH:
+	mov(44,ax);
+	jmp done;
+printI:
+	mov(444,ax);
+	jmp done;
+printJ:
+	mov(5,ax);
+	jmp done;
+printK:
+	mov(55,ax);
+	jmp done;
+printL:
+	mov(555,ax);
+	jmp done;
+printM:
+	mov(6,ax);
+	jmp done;
+printN:
+	mov(66,ax);
+	jmp done;
+printO:
+	mov(666,ax);
+	jmp done;
+printP:
+	mov(7,ax);
+	jmp done;
+printQ:
+	mov(77,ax);
+	jmp done;
+printR:
+	mov(777,ax);
+	jmp done;
+printS:
+	mov(7777,ax);
+	jmp done;
+printT:
+	mov(8,ax);
+	jmp done;
+printU:
+	mov(88,ax);
+	jmp done;
+printV:
+	mov(888,ax);
+	jmp done;
+printW:
+	mov(9,ax);
+	jmp done;
+printX:
+	mov(99,ax);
+	jmp done;
+printY:
+	mov(999,ax);
+	jmp done;
+printZ:
+	mov(9999,ax);
+
+	
+done:
+    push(iReturnAddress);
+    push(iRegisterValue);
+	pop(ebx);
+	
+    ret();
+end multitap;
+begin main;
+    stdout.put("Feed Me: ");
+	stdin.flushInput();
+	xor(eax,eax);
+    stdin.getc();		//stores in al
+	push(eax);
+    call multitap;
+	stdout.put("In multiple-tap, that's ");
+	stdout.puti16(ax);
+	stdout.newln();
+end main;

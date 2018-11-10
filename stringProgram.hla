@@ -1,0 +1,65 @@
+// string program
+program main;
+#include ("stdlib.hhf");
+static
+    iSize: int8 := 0;       // number of array elements
+    dStringAddress : dword := 0;    // holds base address
+
+begin main;
+
+    stdout.put("Gimme a size for your string: ");
+    stdin.get(iSize);
+
+    // calculate the size of the array
+    mov( @size(int8), AL);
+    mov( iSize, bl);
+    inc(bl);        // add one for null
+    mul(bl);        // result is in AX
+    xor(ebx,ebx);
+    mov(ax,bx);
+
+    // let's malloc the array
+    malloc(ebx);
+    mov(eax,dStringAddress);
+forloop:
+forloopinit:
+    mov(0,dl);
+    mov(65,dh);
+    mov(eax,ebx);
+forloopterminationclause:
+    cmp(dl,iSize);
+    jge forloopend;
+forloopbody:
+    mov(dh,[ebx]);
+forloopincrement:
+    inc(dl);
+    inc(dh);
+    inc(ebx);
+jmp forloopterminationclause;
+forloopend:
+    //add ending null
+    mov(0,dh);
+    mov(dh,[ebx]);
+
+    //show the result
+printloop:
+printloopinit:
+    mov(0,dh);
+    mov(0,dl);
+    mov(eax,ebx);
+printloopterminateclause:
+    cmp([ebx],dh);
+    je printloopend;
+printloopbody:
+    stdout.put("a[");
+    stdout.puti8(dl);
+    stdout.put("]= ");
+    stdout.putc([ebx]);
+    stdout.newln();
+printloopincrement:
+    inc(dl);
+    inc(ebx);
+    jmp printloopterminateclause;
+printloopend:
+    free(dStringAddress);
+end main;

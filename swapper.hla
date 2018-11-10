@@ -1,0 +1,89 @@
+// swapper
+program main;
+#include("stdlib.hhf");
+static
+    x: int32;
+    y: int32;
+    z: int32;
+procedure swapper(x: int32;y: int32;z: int32); @nodisplay; @noframe;
+static
+    iReturnAddress: dword;
+    sortFlag: byte := 0;
+    temp: dword;
+begin swapper;
+    pop(iReturnAddress);        
+    pop(eax);
+    pop(ebx);
+    pop(ecx);
+    mov([eax],x);
+    mov([ebx],y);
+    mov([ecx],z);
+    push(iReturnAddress);
+sort:
+s1:
+    mov(z,edx);
+    cmp(x,edx);
+    JA xGreater;
+    jmp s2;
+xGreater:
+    mov(x,temp);
+    mov(edx,x);
+    mov(temp,z);
+    mov(1,sortFlag);
+s2:
+    mov(y,edx);
+    cmp(x,edx);
+    JA x2Greater;
+    jmp s3;
+x2Greater:
+    mov(x,temp);
+    mov(edx,x);
+    mov(temp,y);
+    mov(1,sortFlag);
+s3:
+    mov(y,edx);
+    cmp(edx,z);
+    JA x3Greater;
+    jmp doneSorting;
+x3Greater:
+    mov(z,temp);
+    mov(edx,z);
+    mov(temp,y);
+    mov(1,sortFlag);
+doneSorting:
+    mov(z,[eax]);
+    mov(y,[ebx]);
+    mov(x,[ecx]);
+ext:
+    mov(sortFlag,al);
+    ret();
+end swapper;
+
+begin main;
+    stdout.put("Gimme X: ");
+    stdin.geti32();             //get input, returns value in ax
+    mov(eax,x);                  //save the value in x
+    mov(&x,eax);
+    push(eax);
+    stdout.put("Gimme Y: ");
+    stdin.geti32();             //get input, returns value in ax
+    mov(eax,y);                  //save the value in x
+    mov(&y,eax);
+    push(eax);
+    stdout.put("Gimme Z: ");
+    stdin.geti32();             //get input, returns value in ax
+    mov(eax,z);                  //save the value in x
+    mov(&z,eax);
+    push(eax);
+
+    call swapper;
+
+    stdout.put("After sorting, X = ");
+    stdout.puti32(x);
+    stdout.put(", Y = ");
+    stdout.puti32(y);
+    stdout.put(", Z = ");
+    stdout.puti32(z);
+
+    //stdout.puti8(al); //returned value in al
+end main;

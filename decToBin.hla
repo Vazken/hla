@@ -1,0 +1,19 @@
+program binary;
+#include( "stdlib.hhf" );
+begin binary;
+	stdout.put( "Gimme a decimal value to print: ");
+	stdin.geti8();
+	xor(ecx,ecx);	//reset the counter to 0
+	mov(8,cl);		//set the counter register to 8
+L1:
+	shl(1,al);
+	jc one;
+	jmp zero;
+one:
+	stdout.put("1");
+	jmp done;
+zero:
+	stdout.put("0");
+done:
+loop L1;
+end binary;
